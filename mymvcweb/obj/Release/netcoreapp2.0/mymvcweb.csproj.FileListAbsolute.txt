@@ -1,0 +1,10 @@
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/bin/Release/netcoreapp2.0/mymvcweb.deps.json
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/bin/Release/netcoreapp2.0/mymvcweb.runtimeconfig.json
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/bin/Release/netcoreapp2.0/mymvcweb.runtimeconfig.dev.json
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/bin/Release/netcoreapp2.0/mymvcweb.dll
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/bin/Release/netcoreapp2.0/mymvcweb.pdb
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/obj/Release/netcoreapp2.0/mymvcweb.csproj.CoreCompileInputs.cache
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/obj/Release/netcoreapp2.0/mymvcweb.AssemblyInfoInputs.cache
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/obj/Release/netcoreapp2.0/mymvcweb.AssemblyInfo.cs
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/obj/Release/netcoreapp2.0/mymvcweb.dll
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/obj/Release/netcoreapp2.0/mymvcweb.pdb

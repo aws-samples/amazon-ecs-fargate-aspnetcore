@@ -1,0 +1,13 @@
+/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb
+--output-path=obj/Release/netcoreapp2.0/
+--application-name=mymvcweb
+--content-root=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/Home/About.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/Home/Contact.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/Home/Index copy.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/Home/Index.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/Shared/Error.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/Shared/_Layout.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/Shared/_ValidationScriptsPartial.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/_ViewImports.cshtml
+--file=/Users/narasund/Documents/Gitworkspace4blog/aspnetcorefargate/mymvcweb/Views/_ViewStart.cshtml
