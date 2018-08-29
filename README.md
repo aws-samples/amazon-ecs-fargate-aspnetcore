@@ -8,7 +8,7 @@
 The development environment needs to have the following :-
 
 
-a)Mac os 10.X or higher
+a)Mac OS latest version (or) Windows 10 with latest updates (or) Ubuntu 16.0.4 or higher
 
 b).NET core 2.0
 
