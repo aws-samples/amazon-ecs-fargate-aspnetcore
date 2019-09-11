@@ -246,11 +246,11 @@ docer-compse rm
 
 
 # Push container images to ECR
-Create two ECR repositories nameyl 'mywebmvc' and 'reverseproxy', one for the ASP.NET core mvc application and other for the nginx reverse proxy.
+Create two ECR repositories namely 'mymvcweb' and 'reverseproxy', one for the ASP.NET core mvc application and other for the nginx reverse proxy.
 
 
 
-Now let's fetch the push commands for 'mywebmvc' repository and execute the following in the terminal.
+Now let's fetch the push commands for 'mymvcweb' repository and execute the following in the terminal.
 
 
 
@@ -273,12 +273,12 @@ docker tag aspnetcorefargate_mymvcweb:latest yourawsaccountnumber.dkr.ecr.us-eas
 
 
 
-Push the 'mymvcweb' image to the remote 'mymvvcweb' repository.
+Push the 'mymvcweb' image to the remote 'mymvcweb' repository.
 
 
 
 ```
-docker push yourawsaccountnumber.dkr.ecr.us-east-1.amazonaws.com/mywebmvc:latest 
+docker push yourawsaccountnumber.dkr.ecr.us-east-1.amazonaws.com/mymvcweb:latest 
 ```
 
 
