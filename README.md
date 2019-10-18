@@ -27,7 +27,7 @@ mkdir mymvcweb
 
 cd mymvcweb
 
-dotnet new
+dotnet new mvc
 
 dotnet restore
 
