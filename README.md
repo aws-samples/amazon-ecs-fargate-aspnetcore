@@ -209,33 +209,62 @@ The docker-compose build should give you the following results and container ids
 
 ```
 Building mymvcweb
-Step 1/6 : FROM microsoft/aspnetcore:2.0
- ---> c8e388523897
-Step 2/6 : WORKDIR /mymvcweb
- ---> Using cache
- ---> a84539366440
-Step 3/6 : COPY bin/Release/netcoreapp2.0/publish .
- ---> Using cache
- ---> 20413b534ce2
-Step 4/6 : ENV ASPNETCORE_URLS http://+:5000
- ---> Using cache
- ---> 12aa8b85ecf8
-Step 5/6 : EXPOSE 5000
- ---> Using cache
- ---> a1045008f67d
-Step 6/6 : ENTRYPOINT ["dotnet", "mymvcweb.dll"]
- ---> Using cache
- ---> d63c60da7a9d
-Successfully built d63c60da7a9d
-Successfully tagged aspnetcorefargate_mymvcweb:latest
+Step 1/12 : FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-env
+ ---> 170a7f2ec51a
+Step 2/12 : WORKDIR /app
+ ---> Running in 75f2ce0d3031
+Removing intermediate container 75f2ce0d3031
+ ---> fb7e7c8d1d45
+Step 3/12 : COPY *.csproj ./
+ ---> 93e1841eb97d
+Step 4/12 : RUN dotnet restore
+ ---> Running in 95cc9be35811
+  Restore completed in 97.46 ms for /app/mymvcweb.csproj.
+Removing intermediate container 95cc9be35811
+ ---> 6b337daceca5
+Step 5/12 : COPY . ./
+ ---> b48e4d7c5ae7
+Step 6/12 : RUN dotnet publish -c Release -o out
+ ---> Running in 43496e3d57d4
+Microsoft (R) Build Engine version 16.3.0+0f4c62fea for .NET Core
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  Restore completed in 97.04 ms for /app/mymvcweb.csproj.
+  mymvcweb -> /app/bin/Release/netcoreapp3.0/mymvcweb.dll
+  mymvcweb -> /app/bin/Release/netcoreapp3.0/mymvcweb.Views.dll
+  mymvcweb -> /app/out/
+Removing intermediate container 43496e3d57d4
+ ---> dd7f9e27e5a0
+Step 7/12 : FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
+ ---> 930743cb4e19
+Step 8/12 : WORKDIR /app
+ ---> Running in cfcca1d91e7f
+Removing intermediate container cfcca1d91e7f
+ ---> 16fe7ba01b5b
+Step 9/12 : COPY --from=build-env /app/out .
+ ---> 6116e9ca8d14
+Step 10/12 : ENTRYPOINT ["dotnet", "mymvcweb.dll"]
+ ---> Running in f023750450bf
+Removing intermediate container f023750450bf
+ ---> a1eecd4e274c
+Step 11/12 : ENV ASPNETCORE_URLS http://+:5000
+ ---> Running in 7f17f58828da
+Removing intermediate container 7f17f58828da
+ ---> 0d97ddb4b1e8
+Step 12/12 : EXPOSE 5000
+ ---> Running in 16e23550217f
+Removing intermediate container 16e23550217f
+ ---> 6d7c3f00f2fd
+Successfully built 6d7c3f00f2fd
+Successfully tagged amazon-ecs-fargate-aspnetcore_mymvcweb:latest
 Building reverseproxy
 Step 1/2 : FROM nginx
- ---> 73acd1f0cfad
+ ---> 540a289bab6c
 Step 2/2 : COPY nginx.conf /etc/nginx/nginx.conf
- ---> Using cache
- ---> 4c5e493bc01d
-Successfully built 4c5e493bc01d
-Successfully tagged aspnetcorefargate_reverseproxy:latest
+ ---> ba2256942a3b
+Successfully built ba2256942a3b
+Successfully tagged amazon-ecs-fargate-aspnetcore_reverseproxy:latest
+
 ```
 
 
@@ -244,16 +273,22 @@ Then invoke 'docker-compose up' command in the terminal. It should give you the 
 
 
 ```
-Creating aspnetcorefargate_mymvcweb_1     ... done
-Creating aspnetcorefargate_mymvcweb_1     ... 
-Creating aspnetcorefargate_reverseproxy_1 ... done
-Attaching to aspnetcorefargate_mymvcweb_1, aspnetcorefargate_reverseproxy_1
+Creating network "amazon-ecs-fargate-aspnetcore_default" with the default driver
+Creating amazon-ecs-fargate-aspnetcore_mymvcweb_1 ... done
+Creating amazon-ecs-fargate-aspnetcore_reverseproxy_1 ... done
+Attaching to amazon-ecs-fargate-aspnetcore_mymvcweb_1, amazon-ecs-fargate-aspnetcore_reverseproxy_1
+mymvcweb_1      | warn: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[60]
+mymvcweb_1      |       Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
 mymvcweb_1      | warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
-mymvcweb_1      |       No XML encryptor configured. Key {2059191a-ff77-4fa9-a968-0962d7a8f10b} may be persisted to storage in unencrypted form.
-mymvcweb_1      | Hosting environment: Production
-mymvcweb_1      | Content root path: /mymvcweb
-mymvcweb_1      | Now listening on: http://[::]:5000
-mymvcweb_1      | Application started. Press Ctrl+C to shut down
+mymvcweb_1      |       No XML encryptor configured. Key {1a961d37-10de-4921-a41d-ca3627533b63} may be persisted to storage in unencrypted form.
+mymvcweb_1      | info: Microsoft.Hosting.Lifetime[0]
+mymvcweb_1      |       Now listening on: http://[::]:5000
+mymvcweb_1      | info: Microsoft.Hosting.Lifetime[0]
+mymvcweb_1      |       Application started. Press Ctrl+C to shut down.
+mymvcweb_1      | info: Microsoft.Hosting.Lifetime[0]
+mymvcweb_1      |       Hosting environment: Production
+mymvcweb_1      | info: Microsoft.Hosting.Lifetime[0]
+mymvcweb_1      |       Content root path: /app
 ```
 
 
