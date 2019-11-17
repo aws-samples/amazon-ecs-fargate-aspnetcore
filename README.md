@@ -8,9 +8,9 @@
 The development environment needs to have the following :-
 
 
-a)Mac OS latest version (or) Windows 10 with latest updates (or) Ubuntu 16.0.4 or higher
+a)Mac OS latest version (or) Windows 10 with latest updates (or) Ubuntu 18.0.4 or higher
 
-b).NET core 3.0
+b).NET Core 3.0
 
 c)Docker latest version
 
@@ -80,7 +80,7 @@ EXPOSE 5000
 ```
 
 
-The above Dockerfile definition creates an ASP.NET core 3.0 container and copies the application deployment package from 'bin/Release/netcoreapp2.0/publish' folder on to mymvcweb folder in the container.It also leverages Kestrel as the web server and the default port of 5000 for ASP.NET core mymvc application. 
+The above Dockerfile definition creates an ASP.NET core 3.0 container and copies the application deployment package from 'bin/Release/netcoreapp3.0/publish' folder on to mymvcweb folder in the container.It also leverages Kestrel as the web server and the default port of 5000 for ASP.NET core mymvc application. 
 
 
 # Create Nginx container
