@@ -10,7 +10,7 @@ The development environment needs to have the following :-
 
 a)Mac OS latest version (or) Windows 10 with latest updates (or) Ubuntu 16.0.4 or higher
 
-b).NET core 2.0
+b).NET core 3.0
 
 c)Docker latest version
 
@@ -53,20 +53,34 @@ Create the following Dockerfile in the mymvcweb folder.
 
 
 ``` Dockerfile
-FROM microsoft/aspnetcore:2.0
- 
-WORKDIR /mymvcweb
-COPY bin/Release/netcoreapp2.0/publish .
- 
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-env
+
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "mymvcweb.dll"]
+
 ENV ASPNETCORE_URLS http://+:5000
 EXPOSE 5000
  
-ENTRYPOINT ["dotnet", "mymvcweb.dll"]
 
 ```
 
 
-The above Dockerfile definition creates an ASP.NET core 2.0 container and copies the application deployment package from 'bin/Release/netcoreapp2.0/publish' folder on to mymvcweb folder in the container.It also leverages Kestrel as the web server and the default port of 5000 for ASP.NET core mymvc application. 
+The above Dockerfile definition creates an ASP.NET core 3.0 container and copies the application deployment package from 'bin/Release/netcoreapp2.0/publish' folder on to mymvcweb folder in the container.It also leverages Kestrel as the web server and the default port of 5000 for ASP.NET core mymvc application. 
 
 
 # Create Nginx container
@@ -98,31 +112,36 @@ Edit the nginx.conf file and add the following definition.
 
 
 ``` conf
-worker_processes 4;
- 
+worker_processes 1;
+
 events { worker_connections 1024; }
- 
+
 http {
+
     sendfile on;
- 
-    upstream app_servers {
+
+    upstream web-site {
         server mymvcweb:5000;
     }
- 
+
     server {
         listen 80;
- 
+        server_name $hostname;
         location / {
-            proxy_pass         http://app_servers;
+            proxy_pass         http://web-site;
             proxy_redirect     off;
+            proxy_http_version 1.1;
+            proxy_cache_bypass $http_upgrade;
+            proxy_set_header   Upgrade $http_upgrade;
+            proxy_set_header   Connection keep-alive;
             proxy_set_header   Host $host;
             proxy_set_header   X-Real-IP $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Proto $scheme;
             proxy_set_header   X-Forwarded-Host $server_name;
         }
     }
 }
-
 ```
 
 
@@ -150,7 +169,7 @@ Now let's compose both these container as an application by defining the Docker-
 
 
 ``` .yaml
-version: '2'
+version: '2.1'
 services:
   mymvcweb:
     build:
@@ -158,12 +177,14 @@ services:
       dockerfile: Dockerfile
     expose:
       - "5000"
+    restart: always
   reverseproxy:
     build:
       context: ./reverseproxy
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    restart: always
     links :
       - mymvcweb
 
